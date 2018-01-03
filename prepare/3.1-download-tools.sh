@@ -23,6 +23,34 @@ case "$FETCH_TOOLCHAIN_MODE" in
 	wget --timestamping https://www.kernel.org/pub/linux/utils/boot/syslinux/syslinux-6.03.tar.xz
 	echo "Check hash.."
 	echo "26d3986d2bea109d5dc0e4f8c4822a459276cf021125e8c9f23c3cca5d8c850e $LFS/sources/syslinux-6.03.tar.xz" | sha256sum -c -
+
+	echo "Downloading extra packages.."
+	wget --timestamping https://sourceforge.net/projects/strace/files/strace/4.20/strace-4.20.tar.xz/download -O strace-4.20.tar.xz
+	wget --timestamping https://openssl.org/source/openssl-1.1.0f.tar.gz 
+	wget --timestamping http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-7.5p1.tar.gz 
+	wget --timestamping https://ftp.gnu.org/gnu/screen/screen-4.5.1.tar.gz 
+	wget --timestamping https://archive.apache.org/dist/apr/apr-1.6.2.tar.bz2 
+	wget --timestamping https://archive.apache.org/dist/apr/apr-util-1.6.0.tar.bz2 
+	wget --timestamping http://anduin.linuxfromscratch.org/BLFS/other/make-ca.sh-20170514 
+	wget --timestamping https://ftp.gnu.org/gnu/wget/wget-1.19.1.tar.xz 
+	wget --timestamping https://curl.haxx.se/download/curl-7.55.1.tar.xz 
+	wget --timestamping https://downloads.sourceforge.net/pcre/pcre-8.41.tar.bz2 
+	wget --timestamping http://ftp.postgresql.org/pub/source/v9.6.4/postgresql-9.6.4.tar.bz2 
+	wget --timestamping https://www.eecis.udel.edu/~ntp/ntp_spool/ntp4/ntp-4.2/ntp-4.2.8p10.tar.gz 
+	wget --timestamping http://anduin.linuxfromscratch.org/BLFS/blfs-bootscripts/blfs-bootscripts-20170731.tar.xz 
+	wget --timestamping https://ftp.gnu.org/gnu/cpio/cpio-2.12.tar.bz2
+	wget --timestamping https://sqlite.org/2017/sqlite-autoconf-3200000.tar.gz 
+	wget --timestamping https://archive.apache.org/dist/subversion/subversion-1.7.9.tar.gz 
+	wget --timestamping https://sourceware.org/ftp/valgrind/valgrind-3.13.0.tar.bz2
+	wget --timestamping https://www.tcpdump.org/release/tcpdump-4.9.2.tar.gz 
+	wget --timestamping https://archive.apache.org/dist/httpd/httpd-2.4.27.tar.bz2 
+	wget --timestamping https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-3.6.1.tgz 
+
+	#echo "Check hash.. TODO"
+
+	echo "Downloading extra packages patches.."
+	wget --timestamping http://www.linuxfromscratch.org/patches/blfs/8.1/openssh-7.5p1-openssl-1.1.0-1.patch 
+	wget --timestamping http://www.linuxfromscratch.org/patches/blfs/8.1/httpd-2.4.27-blfs_layout-1.patch 
 	;;
 "1")
 	echo "Assume toolchain from host is already placed in sources folder"
