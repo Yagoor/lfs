@@ -24,6 +24,24 @@ fi
 if [ -x /home/dev/.startup ] ; then
 	/home/dev/.startup
 fi
+
+if [ -d /home/dev/tmp ] ; then
+	rm -rf /home/dev/tmp
+fi
+mkdir /home/dev/tmp
+chmod 777 /home/dev/tmp
+
+if [ -d /home/dev/mnt ] ; then
+	rm -rf /home/dev/mnt
+fi
+mkdir /home/dev/mnt
+
+if mount | grep /dev/sdb1 ; then
+	rm -rf /tmp
+	ln -s /home/dev/tmp / 
+	rm -rf /mnt
+	ln -s /home/dev/mnt / 
+fi
 EOF
 
 chmod a+x /etc/rc.d/init.d/dev
