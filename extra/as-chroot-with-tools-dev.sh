@@ -17,6 +17,7 @@ sh /tools/10.10-make-pcre.sh
 sh /tools/10.12-make-ntp.sh
 sh /tools/10.13-make-blfs-bootscripts.sh
 sh /tools/10.14-make-sqlite.sh
+sh /tools/10.26-make-neon.sh
 sh /tools/10.15-make-subversion.sh
 sh /tools/10.16-make-cpio.sh
 sh /tools/10.17-make-valgrind.sh

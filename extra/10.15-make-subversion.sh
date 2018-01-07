@@ -13,9 +13,9 @@ make
 
 make install &&
 
-install -v -m755 -d /usr/share/doc/subversion-1.9.7 &&
+install -v -m755 -d /usr/share/doc/subversion-1.7.9 &&
 cp      -v -R       doc/* \
-                    /usr/share/doc/subversion-1.9.7
+                    /usr/share/doc/subversion-1.7.9
 
 popd \
   && rm -rf /tmp/subversion

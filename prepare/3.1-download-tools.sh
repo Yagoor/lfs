@@ -49,6 +49,7 @@ case "$FETCH_TOOLCHAIN_MODE" in
 	wget --timestamping https://archive.apache.org/dist/httpd/httpd-2.4.27.tar.bz2 
 	wget --timestamping https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-3.6.1.tgz 
 	wget --timestamping https://www.gnu.org/software/xorriso/xorriso-1.4.8.tar.gz 
+	wget --timestamping https://src.fedoraproject.org/repo/pkgs/neon/neon-0.29.6.tar.gz/591e0c82e6979e7e615211b386b8f6bc/neon-0.29.6.tar.gz 
 
 	#echo "Check hash.. TODO"
 
