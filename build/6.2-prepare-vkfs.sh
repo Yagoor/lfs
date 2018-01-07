@@ -7,6 +7,7 @@ mkdir -pv $LFS/{dev,proc,sys,run}
 # create Initial Device Nodes
 mknod -m 600 $LFS/dev/console c 5 1
 mknod -m 666 $LFS/dev/null c 1 3
+mknod -m 0644 $LFS/dev/random c 1 8
 
 # mount and populate /dev
 mount -v --bind /dev $LFS/dev

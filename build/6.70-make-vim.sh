@@ -34,7 +34,7 @@ syntax on
 if (&term == "xterm") || (&term == "putty")
   set background=dark
 endif
-set spelllang=en,ru
+set spelllang=en
 set spell
 " End /etc/vimrc
 EOF

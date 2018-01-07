@@ -8,7 +8,13 @@ export TOOLBASH := set +h && umask 022 && cd $$LFS/sources
 
 ROS_VERSION=4.0.0
 
-all: before sources tools lfs iso
+all: raw dev
+
+raw: before sources tools lfs iso
+	@echo "RosariOS is done"
+
+dev: before sources tools lfs extra-dev iso
+	mv /tmp/lfs.iso ./RosariOS-Dev-$(ROS_VERSION).iso
 	@echo "RosariOS is done"
 
 before:
@@ -17,7 +23,7 @@ before:
 	&& mkdir -pv $$LFS/tools   					\
 	&& ln    -sv $$LFS/tools / 					\
 	&& cp -v ./run-all.sh ./library-check.sh ./version-check.sh 	\
-	   ./prepare/* ./build/* ./image/* $$LFS/tools/			\
+	   ./prepare/* ./build/* ./image/* ./extra/* $$LFS/tools/	\
 	&& cp -v config/.variables config/kernel.config $$LFS/tools/ 	\
 	&& chmod +x $$LFS/tools/*.sh    				\
 	&& sync 							\
@@ -64,6 +70,12 @@ lfs:
 	&& popd \
 	&& touch $@
 
+extra-dev:
+	pushd $$LFS/sources \
+	&& sh /tools/run-extra-dev.sh \
+	&& popd \
+	&& touch $@
+
 iso:
 	pushd $$LFS/sources \
 	&& sh /tools/run-image.sh \
@@ -74,7 +86,7 @@ clean:
 	-userdel lfs
 	sed -i '/lfs ALL/d' /etc/sudoers
 	rm -rf $$LFS/ /tools /tmp/*
-	rm -f before tools sources lfs iso
+	rm -f before tools sources lfs iso extra-dev
 	
 dist-clean: clean
 	rm -f RosariOS-LFS*

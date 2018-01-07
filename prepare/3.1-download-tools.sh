@@ -31,6 +31,7 @@ case "$FETCH_TOOLCHAIN_MODE" in
 	wget --timestamping https://ftp.gnu.org/gnu/screen/screen-4.5.1.tar.gz 
 	wget --timestamping https://archive.apache.org/dist/apr/apr-1.6.2.tar.bz2 
 	wget --timestamping https://archive.apache.org/dist/apr/apr-util-1.6.0.tar.bz2 
+	wget --timestamping http://anduin.linuxfromscratch.org/BLFS/other/certdata.txt 
 	wget --timestamping http://anduin.linuxfromscratch.org/BLFS/other/make-ca.sh-20170514 
 	wget --timestamping https://ftp.gnu.org/gnu/wget/wget-1.19.1.tar.xz 
 	wget --timestamping https://curl.haxx.se/download/curl-7.55.1.tar.xz 
@@ -42,15 +43,19 @@ case "$FETCH_TOOLCHAIN_MODE" in
 	wget --timestamping https://sqlite.org/2017/sqlite-autoconf-3200000.tar.gz 
 	wget --timestamping https://archive.apache.org/dist/subversion/subversion-1.7.9.tar.gz 
 	wget --timestamping https://sourceware.org/ftp/valgrind/valgrind-3.13.0.tar.bz2
+	wget --timestamping http://www.tcpdump.org/release/libpcap-1.8.1.tar.gz 
 	wget --timestamping https://www.tcpdump.org/release/tcpdump-4.9.2.tar.gz 
+	wget --timestamping https://sourceforge.net/projects/tcpreplay/files/tcpreplay/4.2.6/tcpreplay-4.2.6.tar.gz/download -O tcpreplay-4.2.6.tar.gz
 	wget --timestamping https://archive.apache.org/dist/httpd/httpd-2.4.27.tar.bz2 
 	wget --timestamping https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-3.6.1.tgz 
+	wget --timestamping https://www.gnu.org/software/xorriso/xorriso-1.4.8.tar.gz 
 
 	#echo "Check hash.. TODO"
 
 	echo "Downloading extra packages patches.."
 	wget --timestamping http://www.linuxfromscratch.org/patches/blfs/8.1/openssh-7.5p1-openssl-1.1.0-1.patch 
 	wget --timestamping http://www.linuxfromscratch.org/patches/blfs/8.1/httpd-2.4.27-blfs_layout-1.patch 
+	wget --timestamping http://www.linuxfromscratch.org/patches/blfs/8.1/libpcap-1.8.1-enable_bluetooth-1.patch 
 	;;
 "1")
 	echo "Assume toolchain from host is already placed in sources folder"
