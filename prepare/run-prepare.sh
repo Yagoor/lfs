@@ -31,10 +31,14 @@ sh /tools/5.26-make-gzip.sh
 sh /tools/5.27-make-m4.sh
 sh /tools/5.28-make-make.sh
 sh /tools/5.29-make-patch.sh
+sh /tools/5.37-make-expat.sh
 sh /tools/5.30-make-perl.sh
 sh /tools/5.31-make-sed.sh
 sh /tools/5.32-make-tar.sh
 sh /tools/5.33-make-texinfo.sh
 sh /tools/5.34-make-util-linux.sh
 sh /tools/5.35-make-xz.sh
+sh /tools/5.38-make-autoconf.sh
+sh /tools/5.39-make-automake.sh
+sh /tools/5.40-make-gperf.sh
 sh /tools/5.36-strip.sh

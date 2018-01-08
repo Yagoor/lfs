@@ -8,23 +8,29 @@ export TOOLBASH := set +h && umask 022 && cd $$LFS/sources
 
 ROS_VERSION=4.0.0
 
-all: raw dev
+all: raw clean dev clean prod clean
+	@echo "RosariOS Raw, Dev and Prod are done"
 
-raw: before sources tools lfs iso
-	@echo "RosariOS is done"
+raw: before config-raw sources tools lfs iso
+	mv /tmp/lfs.iso ./RosariOS-$(ROS_VERSION).iso
+	@echo "RosariOS Raw is done"
 
-dev: before sources tools lfs extra-dev iso
+dev: before config-dev sources tools lfs extra-dev iso
 	mv /tmp/lfs.iso ./RosariOS-Dev-$(ROS_VERSION).iso
-	@echo "RosariOS is done"
+	@echo "RosariOS Dev is done"
+
+prod: before config-prod sources tools lfs-prod extra-prod iso
+	mv /tmp/lfs.iso ./RosariOS-Prod-$(ROS_VERSION).iso
+	@echo "RosariOS Prod is done"
 
 before:
 	@mkdir -pv     $$LFS/sources 					\
 	&& chmod -v a+wt $$LFS/sources 					\
 	&& mkdir -pv $$LFS/tools   					\
 	&& ln    -sv $$LFS/tools / 					\
-	&& cp -v ./run-all.sh ./library-check.sh ./version-check.sh 	\
-	   ./prepare/* ./build/* ./image/* ./extra/* $$LFS/tools/	\
-	&& cp -v config/.variables config/kernel.config $$LFS/tools/ 	\
+	&& cp -v ./library-check.sh $$LFS/tools/			\
+	&& cp -v ./version-check.sh $$LFS/tools/ 			\
+	&& cp -v ./prepare/* ./build/* ./image/* ./extra/* $$LFS/tools/	\
 	&& chmod +x $$LFS/tools/*.sh    				\
 	&& sync 							\
 	&& $$LFS/tools/version-check.sh 				\
@@ -32,18 +38,43 @@ before:
 	&& groupadd lfs                                    		\
 	&& useradd -s /bin/bash -g lfs -m -k /dev/null lfs 		\
 	&& echo "lfs:lfs" | chpasswd 					\
-	&& adduser lfs sudo 						\
 	&& chown -v lfs $$LFS/tools  					\
 	&& chown -v lfs $$LFS/sources 					\
-	&& echo "lfs ALL = NOPASSWD : ALL" >> /etc/sudoers 		\
 	&& cp -v config/.bash_profile config/.bashrc /home/lfs/ 	\
 	&& touch $@
 
+config-dev:
+	cp -v config/.variables-dev $$LFS/tools/.variables 		\
+	&& cp -v config/kernel-dev.config $$LFS/tools/kernel.config 	\
+	&& touch $@
+
+config-raw:
+	cp -v config/.variables-raw $$LFS/tools/.variables 		\
+	&& cp -v config/kernel-raw.config $$LFS/tools/kernel.config 	\
+	&& touch $@
+
+config-prod:
+	cp -v config/.variables-prod $$LFS/tools/.variables 		\
+	&& cp -v config/kernel-prod.config $$LFS/tools/kernel.config 	\
+	&& touch $@
+
 sources:
+ifeq ($(findstring RosariOS-LFS-$(ROS_VERSION)-sources.cpio.gz,$(wildcard *.cpio.gz)), )
 	pushd $$LFS/sources \
 	&& su lfs -c "$(TOOLENV) '$(TOOLBASH) && MAKEFLAGS=\"-j 1\" sh /tools/run-source.sh'" \
 	&& popd \
-	&& touch $@
+	&& pushd $$LFS/sources \
+	&& find . | cpio -o -c | gzip -9 > $$LFS/RosariOS-LFS-$(ROS_VERSION)-sources.cpio.gz \
+	&& popd \
+	&& mv $(LFS)/RosariOS-LFS-$(ROS_VERSION)-sources.cpio.gz .
+else
+	@cp RosariOS-LFS-$(ROS_VERSION)-sources.cpio.gz $$LFS/ \
+	&& pushd $$LFS/sources \
+	&& zcat $$LFS/RosariOS-LFS-$(ROS_VERSION)-sources.cpio.gz | cpio -idmv \
+	&& rm $$LFS/RosariOS-LFS-$(ROS_VERSION)-sources.cpio.gz \
+	&& popd
+endif
+	touch $@
 
 tools:
 ifeq ($(findstring RosariOS-LFS-$(ROS_VERSION)-tools.cpio.gz,$(wildcard *.cpio.gz)), )
@@ -70,9 +101,21 @@ lfs:
 	&& popd \
 	&& touch $@
 
+lfs-prod:
+	pushd $$LFS/sources \
+	&& sh /tools/run-build-prod.sh \
+	&& popd \
+	&& touch $@
+
 extra-dev:
 	pushd $$LFS/sources \
 	&& sh /tools/run-extra-dev.sh \
+	&& popd \
+	&& touch $@
+
+extra-prod:
+	pushd $$LFS/sources \
+	&& sh /tools/run-extra-prod.sh \
 	&& popd \
 	&& touch $@
 
@@ -84,9 +127,8 @@ iso:
 
 clean:
 	-userdel lfs
-	sed -i '/lfs ALL/d' /etc/sudoers
 	rm -rf $$LFS/ /tools /tmp/*
-	rm -f before tools sources lfs iso extra-dev
+	rm -f before tools sources lfs iso extra-dev config-raw config-dev config-prod lfs-prod extra-prod
 	
 dist-clean: clean
 	rm -f RosariOS-LFS*

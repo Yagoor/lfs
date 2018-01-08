@@ -20,7 +20,7 @@ make
 # ensure that the nobody user can write to the sources tree
 chown -Rv nobody .
 # run the tests as the nobody user
-su nobody -s /bin/bash -c "PATH=$PATH make tests"
+if [ $LFS_TEST -eq 1 ]; then su nobody -s /bin/bash -c "PATH=$PATH make tests"; fi
 # install
 make install
 mv -vf /usr/bin/bash /bin
