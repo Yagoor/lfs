@@ -11,17 +11,17 @@ ROS_VERSION=4.0.0
 all: raw clean dev clean prod clean
 	@echo "RosariOS Raw, Dev and Prod are done"
 
-raw: before config-raw sources tools lfs iso
-	mv /tmp/lfs.iso ./RosariOS-$(ROS_VERSION).iso
-	@echo "RosariOS Raw is done"
+raw: before config-raw sources tools lfs cpio
+	@mv /tmp/RosariOS-LFS-$(ROS_VERSION).cpio.gz ./RosariOS-LFS-$(ROS_VERSION).cpio.gz \
+	&& echo "RosariOS Prod is done"
 
-dev: before config-dev sources tools lfs extra-dev iso
-	mv /tmp/lfs.iso ./RosariOS-Dev-$(ROS_VERSION).iso
-	@echo "RosariOS Dev is done"
+dev: before config-dev sources tools lfs extra-dev cpio
+	@mv /tmp/RosariOS-LFS-$(ROS_VERSION).cpio.gz ./RosariOS-Dev-$(ROS_VERSION).cpio.gz \
+	&& echo "RosariOS Prod is done"
 
-prod: before config-prod sources tools lfs-prod extra-prod iso
-	mv /tmp/lfs.iso ./RosariOS-Prod-$(ROS_VERSION).iso
-	@echo "RosariOS Prod is done"
+prod: before config-prod sources tools lfs-prod extra-prod cpio
+	@mv /tmp/RosariOS-LFS-$(ROS_VERSION).cpio.gz ./RosariOS-Prod-$(ROS_VERSION).cpio.gz \
+	&& echo "RosariOS Prod is done"
 
 before:
 	@mkdir -pv     $$LFS/sources 					\
@@ -125,10 +125,20 @@ iso:
 	&& popd \
 	&& touch $@
 
+cpio:
+	mkdir -p /tmp/cpio \
+	&& pushd $$LFS/ \
+	&& cp -dpR $$(ls -A | grep -Ev "sources|tools") /tmp/cpio \
+	&& pushd /tmp/cpio \
+	&& find . | cpio -o -c | gzip -9 > /tmp/RosariOS-LFS-$(ROS_VERSION).cpio.gz \
+	&& popd \
+	&& popd \
+	&& touch $@
+
 clean:
 	-userdel lfs
 	rm -rf $$LFS/ /tools /tmp/*
-	rm -f before tools sources lfs iso extra-dev config-raw config-dev config-prod lfs-prod extra-prod
+	rm -f before tools sources lfs iso extra-dev config-raw config-dev config-prod lfs-prod extra-prod cpio
 	
 dist-clean: clean
 	rm -f RosariOS-LFS*

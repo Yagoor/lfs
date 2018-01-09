@@ -12,7 +12,8 @@ sh /tools/7.x-configure-bash.sh
 
 # make system bootable
 sh /tools/8.2-create-fstab.sh
-sh /tools/8.3-make-linux-kernel.sh
+# removed kernel from here to be done afterwards
+#sh /tools/8.3-make-linux-kernel.sh
 
 # end
 sh /tools/9.1-the-end.sh

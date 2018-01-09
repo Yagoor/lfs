@@ -17,7 +17,6 @@ sh /tools/6.11-make-zlib.sh
 sh /tools/6.12-make-file.sh
 sh /tools/6.13-make-readline.sh
 sh /tools/6.14-make-m4.sh
-sh /tools/6.15-make-bc.sh
 sh /tools/6.16-make-binutils.sh
 sh /tools/6.17-make-gmp.sh
 sh /tools/6.18-make-mpfr.sh
