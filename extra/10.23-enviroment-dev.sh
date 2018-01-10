@@ -54,9 +54,8 @@ cat > /root/.bash_profile << "EOF"
 # Personal environment variables and startup programs.
 
 export PTAH=104.196.113.124
-export NEITH=35.196.62.84
-export HAPI=10.0.0.24
-export SVN=http://$PTAH
+export SVN=http://$PTAH/svn
+export SAMBA=http://$PTAH/samba
 
 # Personal aliases and functions should go in ~/.bashrc.  System wide
 # environment variables and startup programs are in /etc/profile.
