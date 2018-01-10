@@ -13,11 +13,11 @@ all: raw clean dev clean prod clean
 
 raw: before config-raw sources tools lfs cpio
 	@mv /tmp/RosariOS-LFS-$(ROS_VERSION).cpio.gz ./RosariOS-LFS-$(ROS_VERSION).cpio.gz \
-	&& echo "RosariOS Prod is done"
+	&& echo "RosariOS Raw is done"
 
 dev: before config-dev sources tools lfs extra-dev cpio
 	@mv /tmp/RosariOS-LFS-$(ROS_VERSION).cpio.gz ./RosariOS-Dev-$(ROS_VERSION).cpio.gz \
-	&& echo "RosariOS Prod is done"
+	&& echo "RosariOS Dev is done"
 
 prod: before config-prod sources tools lfs-prod extra-prod cpio
 	@mv /tmp/RosariOS-LFS-$(ROS_VERSION).cpio.gz ./RosariOS-Prod-$(ROS_VERSION).cpio.gz \
