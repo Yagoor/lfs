@@ -15,6 +15,7 @@ sh /tools/10.8-make-wget.sh
 sh /tools/10.9-make-curl.sh
 sh /tools/10.10-make-pcre.sh
 sh /tools/10.12-make-ntp.sh
+sh /tools/10.28-make-parted.sh
 sh /tools/10.13-make-blfs-bootscripts.sh
 sh /tools/10.21-strip.sh
 sh /tools/10.22-enviroment.sh

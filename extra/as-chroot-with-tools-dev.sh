@@ -25,6 +25,7 @@ sh /tools/10.20-make-libpcap.sh
 sh /tools/10.18-make-tcpdump.sh
 sh /tools/10.19-make-tcpreplay.sh
 sh /tools/10.25-make-xorriso.sh
+sh /tools/10.28-make-parted.sh
 sh /tools/10.21-strip.sh
 sh /tools/10.22-enviroment.sh
 sh /tools/10.23-enviroment-dev.sh
