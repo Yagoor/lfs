@@ -3,7 +3,7 @@ SHELL=/bin/bash
 export LFS=/mnt/lfs
 export LFS_TGT=$$(uname -m)-lfs-linux-gnu  
 
-export TOOLENV := exec env -i HOME=/home/lfs TERM=$(TERM) LFS=$(LFS) LC_ALL=POSIX LFS_TGT=$(LFS_TGT) PATH=/tools/bin:/bin:/usr/bin /bin/bash -c
+export TOOLENV := exec env -i HOME=/home/lfs TERM=$(TERM) LFS=$(LFS) LC_ALL=POSIX LFS_TGT=$(LFS_TGT) SAMBA=$$SAMBA PATH=/tools/bin:/bin:/usr/bin /bin/bash -c
 export TOOLBASH := set +h && umask 022 && cd $$LFS/sources
 
 ROS_VERSION=4.0.0
@@ -11,15 +11,15 @@ ROS_VERSION=4.0.0
 all: raw clean dev clean prod clean
 	@echo "RosariOS Raw, Dev and Prod are done"
 
-raw: before config-raw sources tools lfs cpio
+raw: before config-lfs sources tools lfs cpio
 	@mv /tmp/RosariOS-LFS-$(ROS_VERSION).cpio.gz ./RosariOS-LFS-$(ROS_VERSION).cpio.gz \
 	&& echo "RosariOS Raw is done"
 
-dev: before config-dev sources tools lfs extra-dev cpio
+dev: before config-lfs sources tools lfs extra-dev cpio
 	@mv /tmp/RosariOS-LFS-$(ROS_VERSION).cpio.gz ./RosariOS-Dev-$(ROS_VERSION).cpio.gz \
 	&& echo "RosariOS Dev is done"
 
-prod: before config-prod sources tools lfs-prod extra-prod cpio
+prod: before config-lfs sources tools lfs-prod extra-prod cpio
 	@mv /tmp/RosariOS-LFS-$(ROS_VERSION).cpio.gz ./RosariOS-Prod-$(ROS_VERSION).cpio.gz \
 	&& echo "RosariOS Prod is done"
 
@@ -40,7 +40,7 @@ before:
 	&& echo "lfs:lfs" | chpasswd 					\
 	&& chown -v lfs $$LFS/tools  					\
 	&& chown -v lfs $$LFS/sources 					\
-	&& cp -v config/.bash_profile config/.bashrc /home/lfs/ 	\
+	&& cp -v /root/.bash_profile /root/.bashrc /home/lfs/ 	\
 	&& touch $@
 
 config-dev:
@@ -56,6 +56,10 @@ config-raw:
 config-prod:
 	cp -v config/.variables-prod $$LFS/tools/.variables 		\
 	&& cp -v config/kernel-prod.config $$LFS/tools/kernel.config 	\
+	&& touch $@
+
+config-lfs:
+	cp -v config/.variables $$LFS/tools/.variables \
 	&& touch $@
 
 sources:
@@ -132,13 +136,14 @@ cpio:
 	&& pushd /tmp/cpio \
 	&& find . | cpio -o -c | gzip -9 > /tmp/RosariOS-LFS-$(ROS_VERSION).cpio.gz \
 	&& popd \
+	&& rm -rf /tmp/cpio \
 	&& popd \
 	&& touch $@
 
 clean:
 	-userdel lfs
 	rm -rf $$LFS/ /tools /tmp/*
-	rm -f before tools sources lfs iso extra-dev config-raw config-dev config-prod lfs-prod extra-prod cpio
+	rm -f before tools sources lfs iso extra-dev config-raw config-dev config-prod config-lfs lfs-prod extra-prod cpio
 	
 dist-clean: clean
 	rm -f RosariOS-LFS*
