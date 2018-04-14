@@ -26,9 +26,11 @@ sh /tools/10.18-make-tcpdump.sh
 sh /tools/10.19-make-tcpreplay.sh
 sh /tools/10.25-make-xorriso.sh
 sh /tools/10.28-make-parted.sh
+sh /tools/10.29-make-git.sh
 sh /tools/10.21-strip.sh
 sh /tools/10.22-enviroment.sh
 sh /tools/10.23-enviroment-dev.sh
 sh /tools/10.24-dev-shell-programs.sh
+sh /tools/10.30-clean-dev.sh
 
 exit

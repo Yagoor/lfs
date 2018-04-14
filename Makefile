@@ -1,27 +1,56 @@
 SHELL=/bin/bash
 
+GIT_CACHE=.gitcache
+ROS_VERSION=5.0.0
+
 export LFS=/mnt/lfs
 export LFS_TGT=$$(uname -m)-lfs-linux-gnu  
 
-export TOOLENV := exec env -i HOME=/home/lfs TERM=$(TERM) LFS=$(LFS) LC_ALL=POSIX LFS_TGT=$(LFS_TGT) SAMBA=$$SAMBA PATH=/tools/bin:/bin:/usr/bin /bin/bash -c
-export TOOLBASH := set +h && umask 022 && cd $$LFS/sources
+export GIT_USER ?= $(shell bash -c 'if [ -f $(GIT_CACHE) ]; then user=$$(head -n 1 $(GIT_CACHE)); echo $$user ; fi')
+export GIT_PASSWORD ?= $(shell bash -c 'if [ -f $(GIT_CACHE) ]; then password=$$(tail -n 1 $(GIT_CACHE)); echo $$password; fi')
 
-ROS_VERSION=4.0.0
+export GIT=https://bitbucket.org/Yagoor/rosariosystems
+export GIT_DOWNLOADS=$$GIT/downloads
+export GIT_TRUNK=$$GIT.git/trunk
+export GIT_BRANCHES=$$GIT.git/branches
+
+export TOOLENV := exec env -i \
+			HOME=/home/lfs \
+			TERM=$(TERM) \
+			LFS=$(LFS) \
+			LC_ALL=POSIX \
+			LFS_TGT=$(LFS_TGT) \
+			SAMBA=$$SAMBA \
+			GIT_USER=$$GIT_USER \
+			GIT_PASSWORD=$$GIT_PASSWORD \
+			GIT=$$GIT \
+			GIT_DOWNLOADS=$$GIT_DOWNLOADS \
+			GIT_TRUNK=$$GIT_TRUNK \
+			GIT_BRANCHES=$$GIT_BRANCHES \
+			PATH=/tools/bin:/bin:/usr/bin /bin/bash -c
+
+export TOOLBASH := set +h && umask 022 && cd $$LFS/sources
 
 all: raw clean dev clean prod clean
 	@echo "RosariOS Raw, Dev and Prod are done"
 
-raw: before config-lfs sources tools lfs cpio
+raw: git before config-lfs sources tools lfs cpio
 	@mv /tmp/RosariOS-LFS-$(ROS_VERSION).cpio.gz ./RosariOS-LFS-$(ROS_VERSION).cpio.gz \
 	&& echo "RosariOS Raw is done"
 
-dev: before config-lfs sources tools lfs extra-dev cpio
+dev: git before config-lfs sources tools lfs extra-dev cpio
 	@mv /tmp/RosariOS-LFS-$(ROS_VERSION).cpio.gz ./RosariOS-Dev-$(ROS_VERSION).cpio.gz \
 	&& echo "RosariOS Dev is done"
 
-prod: before config-lfs sources tools lfs-prod extra-prod cpio
+prod: git before config-lfs sources tools lfs-prod extra-prod cpio
 	@mv /tmp/RosariOS-LFS-$(ROS_VERSION).cpio.gz ./RosariOS-Prod-$(ROS_VERSION).cpio.gz \
 	&& echo "RosariOS Prod is done"
+
+git: $(GIT_CACHE)
+
+$(GIT_CACHE):
+	@read -p "Git username: " user; echo $$user > $(GIT_CACHE) ; \
+	read -s -p "Git password: " password; echo $$password >> $(GIT_CACHE) 
 
 before:
 	@mkdir -pv     $$LFS/sources 					\
@@ -143,7 +172,7 @@ cpio:
 clean:
 	-userdel lfs
 	rm -rf $$LFS/ /tools /tmp/*
-	rm -f before tools sources lfs iso extra-dev config-raw config-dev config-prod config-lfs lfs-prod extra-prod cpio
+	rm -f before tools sources lfs iso extra-dev config-raw config-dev config-prod config-lfs lfs-prod extra-prod cpio $(GIT_CACHE)
 	
 dist-clean: clean
 	rm -f RosariOS-LFS*
