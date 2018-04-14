@@ -20,6 +20,7 @@ if ! ls /home/dev | grep $username ; then
 	passwd $username
 	cp /root/.bashrc /home/dev/$username/
 	cp /root/.bash_profile /home/dev/$username/
+	chown -R $username:$username /home/dev/$username/
 	cp /etc/passwd /home/dev/.passwd
 	cp /etc/group /home/dev/.group
 	cp /etc/shadow /home/dev/.shadow

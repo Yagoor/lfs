@@ -53,7 +53,7 @@ cat > /root/.bash_profile << "EOF"
 
 # Personal environment variables and startup programs.
 
-export PTAH=104.196.113.124
+export PTAH=35.227.112.115
 export SVN=http://$PTAH/svn
 export SAMBA=http://$PTAH/samba
 
