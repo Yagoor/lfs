@@ -1,0 +1,41 @@
+# RosariOS Files #
+###################
+.gitcache
+*.cpio.gz
+
+#From Makefile
+before 
+tools 
+sources 
+lfs 
+iso 
+extra-dev 
+config-raw 
+config-dev 
+config-prod 
+config-lfs 
+lfs-prod 
+extra-prod 
+cpio
+
+###################
+
+####### Vim #######
+###################
+
+# Swap
+[._]*.s[a-v][a-z]
+[._]*.sw[a-p]
+[._]s[a-v][a-z]
+[._]sw[a-p]
+
+# Session
+Session.vim
+
+# Temporary
+.netrwhist
+*~
+# Auto-generated tag files
+tags
+
+###################
