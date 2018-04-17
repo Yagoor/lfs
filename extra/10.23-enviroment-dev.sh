@@ -57,10 +57,13 @@ export PTAH=35.227.112.115
 export SVN=http://$PTAH/svn
 export SAMBA=http://$PTAH/samba
 
-export GIT=https://bitbucket.org/Yagoor/rosariosystems
-export GIT_DOWNLOADS=$GIT/downloads
-export GIT_TRUNK=$GIT.git/trunk
-export GIT_BRANCHES=$GIT.git/branches
+export GIT=https://bitbucket.org/Yagoor
+export GIT_ROSARIOS=$GIT/rosarios
+export GIT_ROSARIOS_DOWNLOADS=$GIT_ROSARIOS/downloads
+export GIT_ROSARIOS_GIT=$GIT_ROSARIOS.git
+export GIT_ROSARIOSYSTEMS=$GIT/rosariosystems
+export GIT_ROSARIOSYSTEM_DOWNLOADS=$GIT_ROSARIOSYSTEMS/downloads
+export GIT_ROSARIOSYSTEM_GIT=$GIT_ROSARIOSYSTEMS.git
 
 # Personal aliases and functions should go in ~/.bashrc.  System wide
 # environment variables and startup programs are in /etc/profile.

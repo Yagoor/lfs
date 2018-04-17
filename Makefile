@@ -9,11 +9,6 @@ export LFS_TGT=$$(uname -m)-lfs-linux-gnu
 export GIT_USER ?= $(shell bash -c 'if [ -f $(GIT_CACHE) ]; then user=$$(head -n 1 $(GIT_CACHE)); echo $$user ; fi')
 export GIT_PASSWORD ?= $(shell bash -c 'if [ -f $(GIT_CACHE) ]; then password=$$(tail -n 1 $(GIT_CACHE)); echo $$password; fi')
 
-export GIT=https://bitbucket.org/Yagoor/rosariosystems
-export GIT_DOWNLOADS=$$GIT/downloads
-export GIT_TRUNK=$$GIT.git/trunk
-export GIT_BRANCHES=$$GIT.git/branches
-
 export TOOLENV := exec env -i \
 			HOME=/home/lfs \
 			TERM=$(TERM) \
@@ -24,7 +19,7 @@ export TOOLENV := exec env -i \
 			GIT_USER=$$GIT_USER \
 			GIT_PASSWORD=$$GIT_PASSWORD \
 			GIT=$$GIT \
-			GIT_DOWNLOADS=$$GIT_DOWNLOADS \
+			GIT_ROSARIOS_DOWNLOADS=$$GIT_ROSARIOS_DOWNLOADS \
 			GIT_TRUNK=$$GIT_TRUNK \
 			GIT_BRANCHES=$$GIT_BRANCHES \
 			PATH=/tools/bin:/bin:/usr/bin /bin/bash -c
