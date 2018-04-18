@@ -50,7 +50,7 @@ $(GIT_CACHE):
 	read -s -p "Git password: " password; echo $$password >> $(GIT_CACHE) 
 
 $(GIT_CACHE_DOWNLOAD):
-	@if [[ "$$GIT_ROSARIOS_DOWNLOADS" -eq "" ]]; then read -p "Git download: " gitdownload; echo $$gitdownload > $(GIT_CACHE_DOWNLOAD); else echo $$GIT_ROSARIOS_DOWNLOADS > $(GIT_CACHE_DOWNLOAD); fi
+	@if [[ -z $$GIT_ROSARIOS_DOWNLOADS ]]; then read -p "Git download: " gitdownload; echo $$gitdownload > $(GIT_CACHE_DOWNLOAD); else echo $$GIT_ROSARIOS_DOWNLOADS > $(GIT_CACHE_DOWNLOAD); fi
 
 before:
 	@mkdir -pv     $$LFS/sources 					\
