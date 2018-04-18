@@ -1,6 +1,7 @@
 SHELL=/bin/bash
 
 GIT_CACHE=.gitcache
+GIT_CACHE_DOWNLOAD=.gitcachedown
 ROS_VERSION=5.0.0
 
 export LFS=/mnt/lfs
@@ -8,6 +9,7 @@ export LFS_TGT=$$(uname -m)-lfs-linux-gnu
 
 export GIT_USER ?= $(shell bash -c 'if [ -f $(GIT_CACHE) ]; then user=$$(head -n 1 $(GIT_CACHE)); echo $$user ; fi')
 export GIT_PASSWORD ?= $(shell bash -c 'if [ -f $(GIT_CACHE) ]; then password=$$(tail -n 1 $(GIT_CACHE)); echo $$password; fi')
+export GIT_ROSARIOS_DOWNLOADS ?= $(shell bash -c 'if [ -f $(GIT_CACHE_DOWNLOAD) ]; then gitdownload=$$(tail -n 1 $(GIT_CACHE_DOWNLOAD)); echo $$gitdownload;  fi')
 
 export TOOLENV := exec env -i \
 			HOME=/home/lfs \
@@ -41,11 +43,14 @@ prod: git before config-lfs sources tools lfs-prod extra-prod cpio
 	@mv /tmp/RosariOS-LFS-$(ROS_VERSION).cpio.gz ./RosariOS-Prod-$(ROS_VERSION).cpio.gz \
 	&& echo "RosariOS Prod is done"
 
-git: $(GIT_CACHE)
+git: $(GIT_CACHE_DOWNLOAD) $(GIT_CACHE)
 
 $(GIT_CACHE):
 	@read -p "Git username: " user; echo $$user > $(GIT_CACHE) ; \
 	read -s -p "Git password: " password; echo $$password >> $(GIT_CACHE) 
+
+$(GIT_CACHE_DOWNLOAD):
+	@if [[ "$$GIT_ROSARIOS_DOWNLOADS" -eq "" ]]; then read -p "Git download: " gitdownload; echo $$gitdownload > $(GIT_CACHE_DOWNLOAD); else echo $$GIT_ROSARIOS_DOWNLOADS > $(GIT_CACHE_DOWNLOAD); fi
 
 before:
 	@mkdir -pv     $$LFS/sources 					\
@@ -167,7 +172,7 @@ cpio:
 clean:
 	-userdel lfs
 	rm -rf $$LFS/ /tools /tmp/*
-	rm -f before tools sources lfs iso extra-dev config-raw config-dev config-prod config-lfs lfs-prod extra-prod cpio $(GIT_CACHE)
+	rm -f before tools sources lfs iso extra-dev config-raw config-dev config-prod config-lfs lfs-prod extra-prod cpio $(GIT_CACHE) $(GIT_CACHE_DOWNLOAD)
 	
 dist-clean: clean
 	rm -f RosariOS-LFS*

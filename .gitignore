@@ -1,6 +1,7 @@
 # RosariOS Files #
 ###################
 .gitcache
+.gitcachedown
 *.cpio.gz
 
 #From Makefile
