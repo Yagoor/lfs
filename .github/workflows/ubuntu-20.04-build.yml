@@ -1,4 +1,4 @@
-name: vagrant-build
+name: ubuntu-20.04-build
 
 on: [push]
 
@@ -22,6 +22,6 @@ jobs:
     - name: Upload Artifact
       uses: actions/upload-artifact@v3
       with:
-        name: LFS iso image
+        name: LFS iso image from Ubuntu 20.04 build
         path: ~/lfs.iso
         retention-days: 5
