@@ -1,0 +1,27 @@
+name: vagrant-build
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    timeout-minutes: 720
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Run bootstrap
+      run: sudo sh bootstrap-ubuntu-20.04.sh
+
+    - name: Run scripts
+      run: sudo sh scripts/run-all.sh
+
+    - name: Copy ISO to home
+      run: mv /tmp/lfs.iso ~/lfs.iso
+
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: LFS iso image
+        path: ~/lfs.iso
+        retention-days: 5
