@@ -16,12 +16,9 @@ jobs:
     - name: Run scripts
       run: sudo sh scripts/run-all.sh
 
-    - name: Copy ISO to home
-      run: mv /tmp/lfs.iso ~/lfs.iso
-
     - name: Upload Artifact
       uses: actions/upload-artifact@v3
       with:
         name: LFS iso image from Ubuntu 20.04 build
-        path: ~/lfs.iso
+        path: /tmp/lfs.iso
         retention-days: 5
