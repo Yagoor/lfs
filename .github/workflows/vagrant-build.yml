@@ -1,4 +1,4 @@
-name: vagrant-up
+name: vagrant-build
 
 on: [push]
 
@@ -30,6 +30,6 @@ jobs:
     - name: Upload Artifact
       uses: actions/upload-artifact@v3
       with:
-        name: LFS iso image
+        name: LFS iso image from Vagrant build
         path: ~/lfs.iso
         retention-days: 5
